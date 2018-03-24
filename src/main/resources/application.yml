@@ -1,0 +1,29 @@
+spring:
+  data:
+    mongodb:
+      port: 27017
+      database: test
+      host: localhost
+  redis:
+    database: 5
+    host: localhost
+    port: 6379
+    password:
+    timeout: 6000
+
+  aop:
+    proxy-target-class: true
+
+  cache:
+    type: redis
+
+base:
+  jwt:
+    secret: zojoKieDTQYZXVi4dGKIn4qTkQA=
+    expire: 604800
+    header: Token
+
+  admin:
+    username: admin
+    password: admin123
+    nickname: 系统管理员
