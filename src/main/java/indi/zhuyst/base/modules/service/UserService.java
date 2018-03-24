@@ -36,5 +36,10 @@ public interface UserService extends BaseCrudService<UserDO>,UserDetailsService{
      */
     UserDTO getUserDTO(String id);
 
+    /**
+     * 通过Query查询用户DTO的分页对象
+     * @param query 查询对象
+     * @return 用户DTO分页对象
+     */
     PageInfo<UserDTO> listUserDTO(Query<UserDO> query);
 }
