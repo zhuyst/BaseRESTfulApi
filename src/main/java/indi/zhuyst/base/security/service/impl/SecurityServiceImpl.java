@@ -1,22 +1,15 @@
 package indi.zhuyst.base.security.service.impl;
 
-import indi.zhuyst.base.common.enums.CodeEnum;
 import indi.zhuyst.base.common.exception.CommonException;
 import indi.zhuyst.base.common.service.BaseService;
 import indi.zhuyst.base.common.util.ServletUtils;
 import indi.zhuyst.base.modules.entity.UserDO;
+import indi.zhuyst.base.security.exception.TokenException;
 import indi.zhuyst.base.security.pojo.AccessToken;
 import indi.zhuyst.base.security.pojo.SecurityUser;
 import indi.zhuyst.base.security.service.SecurityService;
 import indi.zhuyst.base.security.setting.JwtSettings;
-import indi.zhuyst.base.common.enums.CodeEnum;
-import indi.zhuyst.base.common.exception.CommonException;
-import indi.zhuyst.base.common.service.BaseService;
-import indi.zhuyst.base.common.util.ServletUtils;
-import indi.zhuyst.base.security.pojo.SecurityUser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -145,23 +138,22 @@ public class SecurityServiceImpl extends BaseService implements SecurityService 
      */
     private Claims getClaimByToken(String token) {
         try {
-            Claims claims = Jwts.parser()
+            return Jwts.parser()
                     .setSigningKey(jwtSettings.getSecret())
                     .parseClaimsJws(token)
                     .getBody();
 
-            // 如果Token不可用，抛出异常
-            if(this.isTokenValid(claims)){
-                throw new CommonException(CodeEnum.UNAUTHORIZED.getCode(),
-                        "token失效，请重新登录");
-            }
+        } catch (ExpiredJwtException e){
 
-            return claims;
-        }catch (Exception e){
+            throw new TokenException("token失效，请重新登录");
+
+        } catch (JwtException e){
 
             // Token转换异常，表示不合法，抛出异常
-            throw new CommonException(CodeEnum.UNAUTHORIZED.getCode(),
-                    "invalid token");
+            throw new TokenException("invalid token");
+        } catch (IllegalArgumentException e){
+
+            throw new TokenException("没有包含Token字段");
         }
     }
 

@@ -2,8 +2,6 @@ package indi.zhuyst.base.common.exception;
 
 import indi.zhuyst.base.common.enums.CodeEnum;
 import indi.zhuyst.base.common.pojo.Result;
-import indi.zhuyst.base.common.enums.CodeEnum;
-import indi.zhuyst.base.common.pojo.Result;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

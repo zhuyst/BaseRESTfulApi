@@ -3,7 +3,6 @@ package indi.zhuyst.base.security.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import indi.zhuyst.base.modules.entity.UserDO;
 import indi.zhuyst.base.modules.pojo.UserDTO;
-import indi.zhuyst.base.modules.pojo.UserDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.ToString;

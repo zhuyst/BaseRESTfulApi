@@ -5,8 +5,6 @@ import indi.zhuyst.base.common.pojo.Query;
 import indi.zhuyst.base.common.service.BaseCrudService;
 import indi.zhuyst.base.modules.entity.UserDO;
 import indi.zhuyst.base.modules.pojo.UserDTO;
-import indi.zhuyst.base.common.pojo.Query;
-import indi.zhuyst.base.modules.pojo.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**

@@ -15,12 +15,6 @@ import indi.zhuyst.base.modules.setting.DefaultAdminSettings;
 import indi.zhuyst.base.security.enums.RoleEnum;
 import indi.zhuyst.base.security.enums.StatusEnum;
 import indi.zhuyst.base.security.pojo.SecurityUser;
-import indi.zhuyst.base.common.exception.CommonException;
-import indi.zhuyst.base.common.pojo.FieldError;
-import indi.zhuyst.base.common.pojo.Query;
-import indi.zhuyst.base.modules.pojo.UserDTO;
-import indi.zhuyst.base.modules.service.UserService;
-import indi.zhuyst.base.modules.setting.DefaultAdminSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.Example;
@@ -87,23 +81,26 @@ public class UserServiceImpl extends BaseCrudServiceImpl<UserDao,UserDO>
             // 设置初始角色及状态
             user.setRole(RoleEnum.VISITOR.getId());
             user.setStatus(StatusEnum.NORMAL.getId());
+
+            this.checkUserInfo(user,true,true);
         } else {
             UserDO oldUser = super.getByID(user.getId());
 
+            // 保证username不被修改
+            user.setUsername(oldUser.getUsername());
+
+            boolean checkNickname = true;
             // 如果两者相等，则表示nickname不需要修改
-            if(oldUser.getNickname().equals(user.getNickname())){
-                user.setNickname(null);
+            if(oldUser.getNickname().equals(user.getNickname())) {
+                checkNickname = false;
             }
 
             // 保证角色及状态不被修改
             user.setRole(oldUser.getRole());
             user.setStatus(oldUser.getStatus());
 
-            // 保证username不被修改
-            user.setUsername(null);
+            this.checkUserInfo(user,false,checkNickname);
         }
-
-        this.checkUserInfo(user);
 
         String password = user.getPassword();
         if(password != null){
@@ -178,14 +175,16 @@ public class UserServiceImpl extends BaseCrudServiceImpl<UserDao,UserDO>
      * 检查{@link UserDO#username}和{@link UserDO#nickname}是否存在重复
      * 如果存在重复则会抛出{@link FieldErrorException}
      * @param user 检查的用户对象
+     * @param checkUsername 是否检查{@link UserDO#username}
+     * @param checkNickname 是否检查{@link UserDO#nickname}
      */
-    private void checkUserInfo(UserDO user){
+    private void checkUserInfo(UserDO user,boolean checkUsername,boolean checkNickname){
         final String fieldUsername = "username";
         final String fieldNickname = "nickname";
 
         UserDO oldUser;
         List<FieldError> errors = new ArrayList<>(2);
-        if(user.getUsername() != null){
+        if(checkUsername){
             oldUser = this.getByUsername(user.getUsername());
             if(oldUser != null){
                 FieldError error = new FieldError(fieldUsername,"该用户名已被使用，请换一个用户名试试");
@@ -193,7 +192,7 @@ public class UserServiceImpl extends BaseCrudServiceImpl<UserDao,UserDO>
             }
         }
 
-        if(user.getNickname() != null){
+        if(checkNickname){
             oldUser = this.getByNickName(user.getNickname());
             if(oldUser != null){
                 FieldError error = new FieldError(fieldNickname,"该昵称已被使用，请换一个昵称试试");

@@ -3,7 +3,6 @@ package indi.zhuyst.base.security.filter;
 import indi.zhuyst.base.security.pojo.SecurityUser;
 import indi.zhuyst.base.security.service.SecurityService;
 import indi.zhuyst.base.security.util.SecurityUtils;
-import indi.zhuyst.base.security.pojo.SecurityUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,6 +35,14 @@ public class TokenFilter extends OncePerRequestFilter{
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+
+        final String publicUri = "public";
+
+        String uri = request.getRequestURI();
+        if(uri.contains(publicUri)){
+            chain.doFilter(request,response);
+            return;
+        }
 
         // 有时请求会错误发送null与undefined
         final String nullStr = "null";

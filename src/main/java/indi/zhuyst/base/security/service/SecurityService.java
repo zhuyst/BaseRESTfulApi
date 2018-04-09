@@ -2,8 +2,6 @@ package indi.zhuyst.base.security.service;
 
 import indi.zhuyst.base.security.pojo.AccessToken;
 import indi.zhuyst.base.security.pojo.SecurityUser;
-import indi.zhuyst.base.security.pojo.AccessToken;
-import indi.zhuyst.base.security.pojo.SecurityUser;
 
 /**
  * Spring Security相关服务接口

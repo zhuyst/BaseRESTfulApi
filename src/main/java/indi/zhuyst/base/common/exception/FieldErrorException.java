@@ -1,7 +1,6 @@
 package indi.zhuyst.base.common.exception;
 
 import indi.zhuyst.base.common.pojo.FieldError;
-import indi.zhuyst.base.common.pojo.FieldError;
 import lombok.Getter;
 
 import java.util.ArrayList;

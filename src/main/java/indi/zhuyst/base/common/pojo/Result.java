@@ -3,8 +3,6 @@ package indi.zhuyst.base.common.pojo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import indi.zhuyst.base.common.enums.CodeEnum;
 import indi.zhuyst.base.common.util.JsonUtils;
-import indi.zhuyst.base.common.enums.CodeEnum;
-import indi.zhuyst.base.common.util.JsonUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

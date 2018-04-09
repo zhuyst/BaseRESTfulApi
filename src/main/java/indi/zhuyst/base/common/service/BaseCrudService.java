@@ -3,7 +3,6 @@ package indi.zhuyst.base.common.service;
 import indi.zhuyst.base.common.entity.BaseDO;
 import indi.zhuyst.base.common.pojo.PageInfo;
 import indi.zhuyst.base.common.pojo.Query;
-import indi.zhuyst.base.common.pojo.Query;
 
 import java.util.List;
 
